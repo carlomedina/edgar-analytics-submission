@@ -41,7 +41,7 @@ For the sake of demonstration, let 4 secs be the inactivity time threshold, henc
 
 At the start of processing the data, we take the time of the first user. Say this time is t = 1. We then add all the users whose time is  t = 1 by sequentially going down te file. All these users will be added at the last element of the queue. 
 
-Suppose that the next user happens at t = 2 (one second after). We shift the queue by one by dequeuing the leftmost entry (in this case it is still empty), and adding an empty dictionary at the end. We then add all users who hit at t = 2. **This process essentially is like moving a discrete time window (the box) through a discrete time points.**
+Suppose that the next user happens at t = 2 (one second after). We shift the queue by one by dequeuing the leftmost entry (in this case it is still empty), and adding an empty dictionary at the end. We then add all users who hit at t = 2. **This process essentially is like moving a discrete time window (_see the box below_) through a discrete time points.**
 
 Similar process occur until we reach time t = 5. As we move to t = 6, all those users who accessed the website at t = 1 have their sessions expired at t = 5. Once we found a user whose hit time is t = 6, before we process them, we will deque these users whose last hit time is t = 1 and flush them and write their records to file. After dequeuing and queuing a new empty dictionary, we can then process the users with hit time t = 6. This is the reason behind the queue size being one more than the length of the session threshold: [users to flush, active, active, active, active]
 
@@ -88,8 +88,8 @@ which are all preloaded libraries in Python3, to the best of my knowledge. Pytho
 
 The submission includes two files,
 
-- main.py
-- session.py
+- `main.py`
+- `session.py`
 
 `session.py` contains the `SessionStore` class that contains the data structures stated above. It also has the methods for adding the user infos, and flushing user session info to file. (I decided to implement this using a class because it's been a while since I last did a project that uses OOP--this exercise was a good refresher).
 
