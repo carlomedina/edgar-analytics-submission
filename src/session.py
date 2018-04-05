@@ -61,9 +61,9 @@ class SessionStore:
 
 		
 		Arguments:
-			latest_hit_time {int} -- [description]
-			current_time {int} -- [description]
-		
+			latest_hit_time {int} -- the most recent hit time before the incoming/current_time
+			current_time {int} -- the hit time currently being processed 
+
 		Returns:
 			int -- the session index
 		"""
@@ -247,11 +247,27 @@ class SessionStore:
 		return
 
 	def get_writer(self):
+		"""returns te writer object. useful at the end when the file needs to be closed
+		
+		Returns:
+			file -- connection to file writer
+		"""
 		return self.file_writer
 
 	# for debug purposes
 	def get_user_holder(self):
+		"""returns the user_holder
+		
+		
+		Returns:
+			OrderedDict -- contains all users with active sessions
+		"""
 		return self.user_holder
 
 	def get_session_holder(self):
+		"""returns session_holder
+
+		Returns:
+			Deque -- the queue containing acitve sessions
+		"""
 		return self.session_holder
