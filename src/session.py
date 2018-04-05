@@ -37,7 +37,7 @@ class SessionStore:
 		Stores the connection of the output file writer
 
 		Arguments:
-			max_session_length {int} -- this will be the queue size. it is the length of maximum inactivity time + 1
+			max_session_length {int} -- maximum session length inactivity as stated in inactivity.txt
 			file_writer {file} -- connection to the file writer
 		"""
 		self.session_holder = deque([ OrderedDict({}) for i in range(max_session_length + 1)])
