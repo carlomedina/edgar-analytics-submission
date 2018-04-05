@@ -96,9 +96,56 @@ The submission includes two files,
 ### Run instruction
 The run instruction is based on the specifications of the challenge. One has to run the bash script `run.sh`
 
-### Wishlist
+## Wishlist
 I got busy with school work and a case competition for a management consulting company. I wanted to clean up sessionization.py more by abstracting all the processes of reading the log, checking time, etc. into the `SessionStore` class to get a much cleaner `main.py` script.
 
 Also, I wanted to do more rigorous testing if the aggregation of sessions are really done correctly based in the specifications, but that would require building the output another way.
 
 (UPDATE: I managed to squeezed in some unit testing and two more tests using a curated web logs. I also managed to abstract the checking of time into `SessionStore` however the add_session method became too long. I would refactor it if I had more time.)
+
+## Miscellaneous
+
+## Directory Structure
+├── images
+│   └── insight-demo.gif
+├── input
+│   ├── inactivity_period.txt
+│   └── log.csv
+├── insight_testsuite
+│   ├── results.txt
+│   ├── run_tests.sh
+│   ├── tests
+│   │   ├── test_1
+│   │   │   ├── input
+│   │   │   │   ├── inactivity_period.txt
+│   │   │   │   └── log.csv
+│   │   │   ├── output
+│   │   │   │   └── sessionization.txt
+│   │   │   └── README.md
+│   │   ├── test_2
+│   │   │   ├── input
+│   │   │   │   ├── inactivity_period.txt
+│   │   │   │   └── log.csv
+│   │   │   ├── output
+│   │   │   │   └── sessionization.txt
+│   │   │   └── README.md
+│   │   └── test_3
+│   │       ├── input
+│   │       │   ├── inactivity_period.txt
+│   │       │   └── log.csv
+│   │       ├── output
+│   │       │   └── sessionization.txt
+│   │       └── README.md
+│   └── unit-test
+│       ├── test.py
+│       └── test.txt
+├── output
+│   ├── README.md
+│   └── sessionization.txt
+├── README.md
+├── run.sh
+└── src
+    ├── main.py
+    ├── README.md
+    ├── session.py
+    └── session.pyc
