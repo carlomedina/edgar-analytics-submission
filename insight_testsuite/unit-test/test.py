@@ -11,22 +11,6 @@ import unittest
 
 class test_case(unittest.TestCase):
 
-	# initialize global vars
-
-
-	# sessions = SessionStore(queue_size, test_writer)
-
-	# # add elements to sessions
-	# sessions.add_session("user1", 1)
-	# sessions.add_session("user1", 1)
-	# sessions.add_session("user1", 1)
-
-	# def setUp(self):
-	# 	pass
-
-	# def tearDown(self):
-	# 	pass
-
 	def test_time_is_updated(self):
 		output_path = "test.txt"
 		output = open(output_path, "w")
