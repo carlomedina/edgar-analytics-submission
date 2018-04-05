@@ -106,19 +106,43 @@ class SessionStore:
 					pytz.UTC
 			).timestamp())
 		
-	def add_session(self, user, current_time):
+	def add_session(self, user, current_time_str):
 		"""adds/updates user information to the queue and dictionary
 		
 		Arguments:
 			user {str} -- unique user ip address
-			current_time {int} -- timestamp of user's hit time (as seconds since epoch)
+			current_time_str {str} -- datetime of incoming users hit time
 		"""
+
+		previous_time = self.get_current_time()  # previous users time
+		current_time = SessionStore.datetime_str_to_timestamp(current_time_str)  # time of the current user being processed
+
+		# add exception if the incoming record has a hit time that happened in the "past"
+		if previous_time > current_time:
+			raise ValueError("The user being added has a hit time that is invalid. \nUser's hit time should either be the same as or after the hit time of the previously added user NOT before")
+
+		# if new user has a hit time that happened after the hit time of the previous user
+		# initiate flushing of the queue
+		if previous_time < current_time:
+
+			# skip is the number of times we should 'move' the queue by flushing
+			# e.g. if the hit time of the current user happened 3 seconds after the hit time of 
+			# the previous user, flush the oldest three entries of the queue
+			skips = current_time - previous_time if previous_time != 0 else 0
+
+			for skip in range(skips):
+				self.flush() # terminates the session of the oldest elements in the session_holder
+
+			# update previous time and current time
+			self.update_current_time(current_time)
+
 
 		# check if user has a current session
 		if user in self.user_holder:
 
 			# get user's time of latest hit in its session
 			latest_hit_time = self.user_holder[user][1]
+
 
 			# check if time of latest hit occured at current time
 			if latest_hit_time == current_time:
@@ -149,13 +173,14 @@ class SessionStore:
 
 			return
 
-		# value of user in user holder is [the time at first session hit, the latest time]
-		# in this case, at initialization, these two values are equal 
-		self.user_holder[user] = [current_time,current_time]
+		else: 
+			# value of user in user holder is [the time at first session hit, the latest time]
+			# in this case, at initialization, these two values are equal 
+			self.user_holder[user] = [current_time,current_time]
 
-		# add number of hits 
-		self.session_holder[-1][user] = 1
-		return
+			# add number of hits 
+			self.session_holder[-1][user] = 1
+			return
 
 	def flush(self):
 		"""deques entries whose session ended and write the sessions to file
@@ -168,7 +193,7 @@ class SessionStore:
 		records_to_flush = self.session_holder.popleft()
 
 		# insert an empty dictionary containing the incoming users
-		self.session_holder.append({})
+		self.session_holder.append(OrderedDict({}))
 
 
 		for user in records_to_flush.keys():
@@ -228,3 +253,5 @@ class SessionStore:
 	def get_user_holder(self):
 		return self.user_holder
 
+	def get_session_holder(self):
+		return self.session_holder
