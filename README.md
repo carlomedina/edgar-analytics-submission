@@ -106,6 +106,7 @@ Also, I wanted to do more rigorous testing if the aggregation of sessions are re
 ## Miscellaneous
 
 ## Directory Structure
+```
 ├── images
 │   └── insight-demo.gif
 ├── input
@@ -149,3 +150,4 @@ Also, I wanted to do more rigorous testing if the aggregation of sessions are re
     ├── README.md
     ├── session.py
     └── session.pyc
+ ```
