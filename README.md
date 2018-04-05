@@ -8,7 +8,7 @@ The Insight Data Engineering coding challenge involves the processing of recorde
 
 For the purposes of this challenge, I assumed that the data coming from EDGAR's log file is sanitized, especially the key data fields, `ip`, `date`, `time`. This seems to be the case after processing test log files coming from EDGAR's database.
 
-Further, all observations of the derived `datetime` variable (concatenating `date` and `time`) are assumed to be rounded to the nearest second, and thus, we can treat time as a discrete numeric entity (think integers) rather than a continuous construct (think real numbers). From this assumption, I derived the data structures that I will use to store the sessions data.
+Further, all datetime timestamps (derived by concatenating `date` and `time`) are assumed to be rounded to the nearest second, and thus, we can treat time as a discrete numeric entity (think integers) rather than a continuous construct (think real numbers). From this assumption, I derived the data structures that I will use to store the sessions data.
 
 I also assumed that all current active sessions at any given time would fit in the memory of my computer. The limitation is based on the fact that the input file is read line-by-line, and all sessions that were expired are written to disk and removed from memory. In case that active sessions would be massive, I was thinking of running a Redis instance in an external server to hold the values I'm tracking. Redis has built in queues and ordered dictionary which can be integrated easily with my current implementation.
 
@@ -76,7 +76,7 @@ At the processing the last entry of the log file, we flush the entire active ses
 
 ## Implementation
 
-This submission is implemented in Python3 with the following dependencies,
+This submission is implemented in **Python3** with the following dependencies,
 
 - `collections`
 - `datetime`
@@ -84,7 +84,7 @@ This submission is implemented in Python3 with the following dependencies,
 - `time`
 - `sys`
 
-which are all preloaded libraries in Python3, to the best of my knowledge
+which are all preloaded libraries in Python3, to the best of my knowledge. Python3 is required to have the timestamp() method in datetime.datetime classes.
 
 The submission includes two files,
 
@@ -100,3 +100,5 @@ The run instruction is based on the specifications of the challenge. One has to 
 I got busy with school work and a case competition for a management consulting company. I wanted to clean up sessionization.py more by abstracting all the processes of reading the log, checking time, etc. into the `SessionStore` class to get a much cleaner `main.py` script.
 
 Also, I wanted to do more rigorous testing if the aggregation of sessions are really done correctly based in the specifications, but that would require building the output another way.
+
+(UPDATE: I managed to squeezed in some unit testing and two more tests using a curated web logs. I also managed to abstract the checking of time into `SessionStore` however the add_session method became too long. I would refactor it if I had more time.)
